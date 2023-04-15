@@ -22,7 +22,7 @@ with open('palavras.txt', 'r') as f:
 	words = f.read().splitlines()
 
 	for word in words:
-		if len(word) <= 5 and len(word) >= 3 and not has_dots(word):
+		if len(word) <= 6 and len(word) >= 3 and not has_dots(word):
 			filtered.append(unidecode(word))
 	
 with open('palavras_filtradas.txt', 'a') as f:

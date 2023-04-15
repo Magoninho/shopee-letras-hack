@@ -1,3 +1,5 @@
+from collections import Counter
+
 letters = [
 	input(),
 	input(),
@@ -13,41 +15,41 @@ def not_other_letters(word, letters):
 			return False
 	return True
 
-def has_same_letters(word):
-	arr = list(word)
-	return len(arr) != len(set(arr))
 
 def filter_by_letters(words, letters):
 	result = []
 	for word in words:
-		counter = 0
+		counter = 0 # contador de letras
 		for letter in letters:
 			if letter in word and not_other_letters(word, letters):
 				counter += 1
+
 		if counter >= 3:
-			result.append(word)
+			if valid_amount_of_letters(word, letters):
+				result.append(word)
 				
 	return result
 
-def get_repeated_letters(letters):
-	newlist = []
-	duplist = []
-	if has_same_letters(letters):
-		for letter in letters:
-			if letter not in newlist:
-				newlist.append(letter)
-			else:
-				duplist.append(letter)
 
-	return duplist
-				
+def get_letter_counter(letters):
+	arr = sorted(list(letters))
+	return dict(Counter(arr))
 
-def remove_words_with_same_letters(words):
-	result = []
-	for word in words:
-		if not has_same_letters(word):
-			result.append(word)
-	return result
+# this function checks if the word has the apropriate number of repeated letters 
+# accordingly to the input letters
+def valid_amount_of_letters(word, letters):
+	letter_count_input = get_letter_counter(letters)
+	letter_count_word  = get_letter_counter(word)
+
+	for letter in letter_count_word:
+		try:
+			if (letter_count_word[letter] > letter_count_input[letter]):
+				return False
+		except KeyError:
+			continue
+
+	return True
+
 
 allow = False
 
@@ -55,8 +57,6 @@ with open('palavras_filtradas.txt', 'r') as f:
 	words = f.read().splitlines()
 	filtered_words = filter_by_letters(words, letters)
 
-	if not allow:
-		filtered_words = remove_words_with_same_letters(filtered_words)
 
 	for word in filtered_words:
 		print(word)
