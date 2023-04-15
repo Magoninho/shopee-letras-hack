@@ -23,7 +23,7 @@ with open('palavras.txt', 'r') as f:
 
 	for word in words:
 		if len(word) <= 6 and len(word) >= 3 and not has_dots(word):
-			filtered.append(unidecode(word))
+			filtered.append(unidecode(word, 'ç'))
 	
 with open('palavras_filtradas.txt', 'a') as f:
 	for word in filtered:
